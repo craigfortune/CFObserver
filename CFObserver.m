@@ -1,32 +1,30 @@
 //
-//  ObservableSubject.m
-//  EndlessRunnerProject
+//  CFObserver.m
 //
 //  Created by Craig Fortune on 26/02/2013.
 //
-//
 
-#import "ObservableSubject.h"
+#import "CFObserver.h"
 
-@implementation ObserverData
+@implementation CFObserverData
 @end
 
-@implementation ObservationController
+@implementation CFObservationController
 
 /**
  Class method initialisation
  **/
-+ (id) initWithProtocol:(Protocol*)protocol andParent:(id<ObservationSubject>)parentObj
++ (id) initWithProtocol:(Protocol*)protocol andParent:(id<CFObservationSubject>)parentObj
 {
-    ObservationController* obsController = [[[ObservationController alloc] initWithProtocol:protocol andParent:parentObj] autorelease];
+    CFObservationController* obsController = [[[CFObservationController alloc] initWithProtocol:protocol andParent:parentObj] autorelease];
     return obsController;
 }
 
 /**
  Simple initialisation to store the protocol and setup the array
- which stores the Observers
+ which stores the CFObservers
  **/
-- (id) initWithProtocol:(Protocol*)protocol andParent:(id<ObservationSubject>)parentObj
+- (id) initWithProtocol:(Protocol*)protocol andParent:(id<CFObservationSubject>)parentObj
 {
 	if((self = [super init]))
 	{
@@ -40,10 +38,10 @@
 
 /**
  Registering an object causes it to be made aware of any changes
- in the Subject that the subject decides to notify.
- The Observer must adhere to the protocol that the Subject specifies.
+ in the CFObservationSubject that the subject decides to notify.
+ The CFObserver must adhere to the protocol that the CFObservationSubject specifies.
  **/
-- (BOOL) registerAsObserver:(id<Observer>)obj
+- (BOOL) registerAsObserver:(id<CFObserver>)obj
 {
     // Object already Observer, ignore.
     if([self.observersArr containsObject:obj])
@@ -54,7 +52,7 @@
 		return NO;
 	
     // Everything checks out - add as an Observer
-	ObserverData* obsData = [[[ObserverData alloc] init] autorelease];
+	CFObserverData* obsData = [[[CFObserverData alloc] init] autorelease];
 	obsData.object = obj;
 	
 	[self.observersArr addObject:obsData];	
@@ -63,12 +61,12 @@
 
 /**
  UnRegistering an object means it will no longer be aware of
- any changes in the Subject.
+ any changes in the CFObservationSubject.
  **/
-- (BOOL) unRegisterAsObserver:(id<Observer>)obj
+- (BOOL) unRegisterAsObserver:(id<CFObserver>)obj
 {
     // Check if the object is in the Observer array
-	for(ObserverData* obsData in self.observersArr)
+	for(CFObserverData* obsData in self.observersArr)
 	{
         // Object found. Remove it.
 		if(obsData.object == obj)
@@ -83,14 +81,14 @@
 }
 
 /**
- The ObserverController requests the Subject object to do the
- actual notifications and passes the Observer object within
- an ObserverData object.
+ The CFObserverController requests the CFObservationSubject object to do the
+ actual notifications and passes the CFObserver object within
+ an CFbserverData object.
  A subject must implement the "doNotification:" method.
  **/
 - (void) notifyObservers
 {
-	for(ObserverData* obsData in self.observersArr)
+	for(CFObserverData* obsData in self.observersArr)
 	{
 		[self.parent doNotification:obsData];
 	}
