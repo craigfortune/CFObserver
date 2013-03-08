@@ -7,6 +7,15 @@
 #import "CFObserver.h"
 
 @implementation CFObserverData
+
+/**
+ **/
+- (void) dealloc
+{
+    [self setObject:nil];
+    [super dealloc];
+}
+
 @end
 
 @implementation CFObservationController
@@ -92,6 +101,16 @@
 	{
 		[self.parent doNotification:obsData];
 	}
+}
+
+/**
+ **/
+- (void) dealloc
+{
+    [self.observersArr removeAllObjects];
+    [self setObserversArr:nil];
+    
+    [super dealloc];
 }
 
 @end
